@@ -134,8 +134,8 @@ async def send_admin_panel(message: types.Message, edit=False):
     online = await req.get_online_users()
     text = (f"🛠 <b>Админ-панель</b>\n\n"
             f"👤 Всего пользователей: <code>{total}</code>\n"
-            f"🟢 В сети: <code>{online}</code>"
-            f"Ты админ ты крутой или нет?")
+            f"🟢 В сети: <code>{online}</code>\n"
+            f"☠️Ты админ ты крутой")
     kb_markup = await kb.admin_broadcast_inline_keyboard()
 
     if edit:
