@@ -62,3 +62,44 @@ async def add_broadcast(text):
     async with async_session() as session:
         session.add(Broadcast(text=text))
         await session.commit()
+
+
+async def add_project(data):
+    async with async_session() as session:
+
+        session.add(Project(
+            name=data['name'],
+            description=data['description'],
+            price=int(data['price']),
+            category=int(data['category'])
+        ))
+        await session.commit()
+
+async def delete_project(project_id):
+    async with async_session() as session:
+        project = await session.get(Project, int(project_id))
+        if project:
+            await session.delete(project)
+            await session.commit()
+
+
+async def update_project(project_id, field, value):
+    async with async_session() as session:
+        # Используем update() и фильтруем по ID
+        # .values({field: value}) подставит имя колонки из переменной
+        await session.execute(
+            update(Project).where(Project.id == project_id).values({field: value})
+        )
+        await session.commit()
+
+
+async def add_category(name):
+    async with async_session() as session:
+        # Проверяем, нет ли уже категории с таким именем (опционально, но полезно)
+        category = await session.scalar(select(Category).where(Category.name == name))
+
+        if not category:
+            session.add(Category(name=name))
+            await session.commit()
+            return True
+        return False
