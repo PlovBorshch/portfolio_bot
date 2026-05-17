@@ -15,11 +15,11 @@ async def main():
         await async_main()
 
         # 2. Потом настройки связи
-        PROXY_URL = "http://127.0.0.1:10808"
-        session = AiohttpSession(proxy=PROXY_URL)
+        #PROXY_URL = "http://127.0.0.1:10808"
+        #session = AiohttpSession(proxy=PROXY_URL)
 
         # 3. Создаем бота и диспетчер
-        bot = Bot(token=TOKEN,session=session)
+        bot = Bot(token=TOKEN) #,session=session
         dp = Dispatcher()
 
         dp.update.outer_middleware(TrackAllUsersMiddleware())
