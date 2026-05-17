@@ -2,10 +2,17 @@ from sqlalchemy import BigInteger, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from datetime import datetime
+import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Поднимаемся на уровень выше в корень проекта и создаем путь к базе
+db_path = os.path.join(BASE_DIR, "..", "db.sqlite3")
+
+# Передаем этот путь в движок (четыре слэша для абсолютного пути)
+engine = create_async_engine(url=f"sqlite+aiosqlite:///{db_path}")
 # 1. Движок. sqlite+aiosqlite — используем асинхронный драйвер.
 # Три слэша /// — это путь к файлу в текущей папке.
-engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')
+#engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')
 
 # 2. Фабрика сессий. Через неё мы будем "общаться" с базой.
 async_session = async_sessionmaker(engine)
